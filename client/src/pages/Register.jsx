@@ -49,16 +49,20 @@ export default function Register() {
 
   return (
     <div className="auth-page">
-      {/* Logo / Brand */}
-      <div className="auth-brand">
-        <div className="auth-logo">💰</div>
-        <h1 className="auth-title">My Money</h1>
-        <p className="auth-subtitle">Your personal expense tracker</p>
+      <div className="auth-graphic">
+        <div className="auth-graphic-content">
+          <div className="auth-graphic-logo">💎</div>
+          <h1 className="auth-graphic-title">Expense Tracker</h1>
+          <p className="auth-graphic-sub">Ultra-premium finance management.</p>
+        </div>
       </div>
 
-      {/* Card */}
-      <div className="auth-card">
-        <h2 className="auth-heading">Create account</h2>
+      <div className="auth-content">
+        <div className="auth-card">
+          <div className="auth-brand-mobile">
+            <div className="auth-logo">💎</div>
+          </div>
+          <h2 className="auth-heading">Create account</h2>
         <p className="auth-desc">Join and start tracking your expenses</p>
 
         {error && (
@@ -156,6 +160,7 @@ export default function Register() {
           Already have an account?{' '}
           <Link to="/login" id="go-to-login">Sign in</Link>
         </p>
+      </div>
       </div>
     </div>
   )

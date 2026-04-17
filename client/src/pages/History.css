@@ -1,0 +1,126 @@
+/* ═══════════════════════════════════════════════
+   HISTORY PAGE — Premium Glassmorphic Styles
+═══════════════════════════════════════════════ */
+
+.hist-page { padding-top: 24px; }
+
+/* ── Summary Row ──────────────────────────────── */
+.hist-summary {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px;
+}
+
+.hist-sum-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  display: flex; align-items: center; gap: 14px;
+  position: relative; overflow: hidden;
+  box-shadow: var(--shadow-sm); backdrop-filter: blur(20px);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.hist-sum-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); border-color: var(--border-glow); }
+
+/* Glowing Top Edge */
+.hist-sum-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+}
+.hist-sum-card.green::before { background: linear-gradient(90deg, var(--green), transparent); box-shadow: 0 0 10px var(--green-glow); }
+.hist-sum-card.red::before   { background: linear-gradient(90deg, var(--red), transparent); box-shadow: 0 0 10px var(--red-glow); }
+
+.hist-sum-icon { font-size: 1.5rem; filter: drop-shadow(0 2px 4px var(--shadow-sm)); }
+.hist-sum-label { font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 4px; }
+.hist-sum-val { font-size: 1.15rem; font-weight: 900; letter-spacing: -0.02em; }
+.green-c { color: var(--green); text-shadow: 0 0 10px var(--green-glow); }
+.red-c   { color: var(--red); text-shadow: 0 0 10px var(--red-glow); }
+
+/* ── PDF Panel ────────────────────────────────── */
+.hist-pdf-panel {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); margin-bottom: 24px; overflow: hidden;
+  box-shadow: var(--shadow-sm); transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
+  backdrop-filter: blur(24px);
+}
+.hist-pdf-panel.open {
+  border-color: var(--border-glow);
+  box-shadow: var(--shadow-accent), inset 0 1px 1px var(--border-inside);
+}
+
+.hist-pdf-toggle {
+  width: 100%; background: none; border: none; cursor: pointer;
+  padding: 18px; display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; font-family: var(--font); transition: background 0.2s;
+}
+.hist-pdf-toggle:hover { background: var(--bg-glass); }
+
+.hist-pdf-toggle-left { display: flex; align-items: center; gap: 14px; }
+.hist-pdf-icon {
+  width: 44px; height: 44px; background: var(--accent-soft); border: 1px solid var(--border); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; box-shadow: inset 0 2px 4px var(--border-inside);
+}
+.hist-pdf-title { font-size: 0.95rem; font-weight: 800; color: var(--text); margin-bottom: 2px; text-transform: uppercase; letter-spacing: 0.05em; }
+.hist-pdf-sub { font-size: 0.72rem; color: var(--text-sub); font-weight: 600; }
+
+.hist-pdf-arrow { font-size: 1.4rem; color: var(--accent); font-weight: 700; transition: transform 0.3s cubic-bezier(0.16,1,0.3,1); line-height: 1; text-shadow: 0 0 10px var(--accent-glow); }
+.hist-pdf-arrow.up { transform: rotate(-90deg); }
+
+.hist-pdf-body { padding: 0 18px 20px; animation: slideDown 0.3s cubic-bezier(0.16,1,0.3,1); }
+@keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+.hist-pdf-section-label { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-sub); margin-bottom: 12px; }
+
+.hist-pdf-options { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; max-height: 280px; overflow-y: auto; padding-right: 4px; }
+
+.hist-pdf-opt {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 16px; border-radius: 14px; border: 1px solid var(--border-2);
+  background: var(--bg-input); color: var(--text-muted); font-family: var(--font);
+  font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.2s cubic-bezier(0.16,1,0.3,1); text-align: left;
+}
+.hist-pdf-opt:hover {
+  border-color: var(--accent);
+  color: var(--text); background: var(--bg-card2); box-shadow: var(--shadow-sm); transform: translateX(2px);
+}
+.hist-pdf-opt.selected {
+  border-color: var(--accent); background: var(--accent-soft); color: var(--text); font-weight: 800; box-shadow: inset 0 1px 1px var(--border-inside);
+}
+.hist-pdf-check { font-size: 0.9rem; color: var(--accent); font-weight: 900; filter: drop-shadow(0 0 5px var(--accent-glow)); }
+
+.hist-pdf-info {
+  display: flex; align-items: center; gap: 10px; background: var(--accent-soft);
+  border: 1px solid var(--border-glow); border-radius: 12px; padding: 12px 14px;
+  font-size: 0.8rem; color: var(--text); font-weight: 600; margin-bottom: 16px; box-shadow: var(--shadow-sm);
+}
+.hist-pdf-info-icon { font-size: 1rem; filter: drop-shadow(0 0 5px var(--accent-glow)); }
+
+/* ── Transaction List ─────────────────────────── */
+.hist-tx-list { display: flex; flex-direction: column; gap: 10px; }
+.hist-tx {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); display: flex; align-items: center; gap: 14px; padding: 16px;
+  transition: transform 0.2s cubic-bezier(0.16,1,0.3,1), background 0.2s, box-shadow 0.2s; backdrop-filter: blur(16px);
+  animation: slideInTx 0.4s cubic-bezier(0.16,1,0.3,1) backwards;
+}
+.hist-tx:hover { transform: scale(1.015); background: var(--bg-card2); box-shadow: var(--shadow-sm); border-color: var(--border-glow); }
+
+@keyframes slideInTx { from { opacity: 0; transform: translateX(-15px); } to { opacity: 1; transform: translateX(0); } }
+
+.hist-tx-icon {
+  width: 44px; height: 44px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.15rem; flex-shrink: 0; border: 1px solid var(--border-inside); background: var(--bg-input);
+}
+
+.hist-tx-info { flex: 1; min-width: 0; }
+.hist-tx-note { font-size: 0.95rem; font-weight: 800; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px; }
+.hist-tx-meta { display: flex; align-items: center; gap: 6px; font-size: 0.7rem; color: var(--text-sub); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;}
+.hist-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--text-sub); flex-shrink: 0; }
+
+.hist-tx-right { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex-shrink: 0; }
+.hist-tx-amt { font-size: 1.05rem; font-weight: 900; letter-spacing: -0.02em; white-space: nowrap; }
+
+.hist-tx-badge { font-size: 0.6rem; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 10px; border-radius: 20px; }
+.hist-tx-badge.badge-in { background: var(--green-soft); color: var(--green); border: 1px solid var(--border); text-shadow: 0 0 10px var(--green-glow); }
+.hist-tx-badge.badge-ex { background: var(--red-soft); color: var(--red); border: 1px solid var(--border); text-shadow: 0 0 10px var(--red-glow); }
+
+.hist-del {
+  background: var(--bg-input); border: 1px solid var(--border-2); cursor: pointer; font-size: 0.85rem; color: var(--text-muted); padding: 4px; border-radius: 8px; transition: all 0.2s;
+}
+.hist-del:hover { color: #fff; background: var(--red-glow); border-color: var(--red); box-shadow: var(--shadow-sm); transform: scale(1.1); }

@@ -1,14 +1,17 @@
 const express = require('express');
 const router = express.Router();
 const Cash = require('../models/Cash');
+const { protect } = require('../middleware/auth');
+
+router.use(protect);
 
 // GET cash balances (coins + notes)
 router.get('/', async (req, res) => {
   try {
-    let cash = await Cash.findOne();
+    let cash = await Cash.findOne({ userId: req.user._id });
     if (!cash) {
       // Create default cash record if none exists
-      cash = await Cash.create({ coins: 0, notes: 0 });
+      cash = await Cash.create({ userId: req.user._id, coins: 0, notes: 0 });
     }
     res.json(cash);
   } catch (err) {
@@ -20,9 +23,9 @@ router.get('/', async (req, res) => {
 router.put('/', async (req, res) => {
   try {
     const { coins, notes } = req.body;
-    let cash = await Cash.findOne();
+    let cash = await Cash.findOne({ userId: req.user._id });
     if (!cash) {
-      cash = new Cash({ coins: 0, notes: 0 });
+      cash = new Cash({ userId: req.user._id, coins: 0, notes: 0 });
     }
     if (coins !== undefined) cash.coins = coins;
     if (notes !== undefined) cash.notes = notes;

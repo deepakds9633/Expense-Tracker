@@ -3,11 +3,14 @@ const router = express.Router();
 const Transaction = require('../models/Transaction');
 const Cash = require('../models/Cash');
 const BankAccount = require('../models/BankAccount');
+const { protect } = require('../middleware/auth');
+
+router.use(protect);
 
 // GET all transactions (newest first)
 router.get('/', async (req, res) => {
   try {
-    const transactions = await Transaction.find().sort({ date: -1 });
+    const transactions = await Transaction.find({ userId: req.user._id }).sort({ date: -1 });
     res.json(transactions);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -17,7 +20,7 @@ router.get('/', async (req, res) => {
 // GET recent transactions (last 5)
 router.get('/recent', async (req, res) => {
   try {
-    const transactions = await Transaction.find().sort({ date: -1 }).limit(5);
+    const transactions = await Transaction.find({ userId: req.user._id }).sort({ date: -1 }).limit(5);
     res.json(transactions);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -38,8 +41,8 @@ router.post('/', async (req, res) => {
 
     // Update the correct balance based on source
     if (source === 'coins' || source === 'notes') {
-      let cash = await Cash.findOne();
-      if (!cash) cash = await Cash.create({ coins: 0, notes: 0 });
+      let cash = await Cash.findOne({ userId: req.user._id });
+      if (!cash) cash = await Cash.create({ userId: req.user._id, coins: 0, notes: 0 });
 
       const field = source; // 'coins' or 'notes'
       if (type === 'expense') {
@@ -55,7 +58,7 @@ router.post('/', async (req, res) => {
     } else if (source === 'bank') {
       if (!accountId) return res.status(400).json({ message: 'accountId is required for bank transactions' });
 
-      const account = await BankAccount.findById(accountId);
+      const account = await BankAccount.findOne({ _id: accountId, userId: req.user._id });
       if (!account) return res.status(404).json({ message: 'Bank account not found' });
 
       accountName = account.name;
@@ -73,6 +76,7 @@ router.post('/', async (req, res) => {
 
     // Save transaction record
     const transaction = await Transaction.create({
+      userId: req.user._id,
       amount: parsedAmount,
       type,
       source,
@@ -90,7 +94,7 @@ router.post('/', async (req, res) => {
 // DELETE a transaction (does NOT reverse balance — for record cleanup only)
 router.delete('/:id', async (req, res) => {
   try {
-    await Transaction.findByIdAndDelete(req.params.id);
+    await Transaction.findOneAndDelete({ _id: req.params.id, userId: req.user._id });
     res.json({ message: 'Transaction deleted' });
   } catch (err) {
     res.status(500).json({ message: err.message });

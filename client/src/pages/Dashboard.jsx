@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getCash, getAccounts, getRecentTransactions, getTransactions } from '../api/api'
-import { useAuth } from '../context/AuthContext'
+import { useAuth }  from '../context/AuthContext'
+import { useTheme } from '../context/ThemeContext'
 import './Dashboard.css'
 
 const BANK_COLORS = ['#7c3aed','#3b82f6','#10b981','#f97316','#ef4444','#06b6d4']
@@ -90,7 +91,8 @@ function buildMonthly(txs) {
 
 export default function Dashboard() {
   const navigate = useNavigate()
-  const { user } = useAuth()
+  const { user }  = useAuth()
+  const { isDark, toggle } = useTheme()
 
   const [cash,      setCash]      = useState({ coins:0, notes:0 })
   const [accounts,  setAccounts]  = useState([])
@@ -145,6 +147,8 @@ export default function Dashboard() {
         <div className="db-hero-inner">
           <p className="db-greeting">
             <span>👋</span> Hi, {user?.name?.split(' ')[0] || 'there'}
+            <button className="theme-toggle" onClick={toggle} title="Toggle theme" style={{ marginLeft:'auto' }}>
+            </button>
           </p>
 
           <div className="db-hero-top">
@@ -179,12 +183,12 @@ export default function Dashboard() {
         <div className="db-stat-card green">
           <div className="db-stat-icon" style={{ background:'rgba(16,185,129,0.12)' }}>💵</div>
           <span className="db-stat-label">Cash</span>
-          <span className="db-stat-val" style={{ color:'var(--green)' }}>{fmtShort(totalCash)}</span>
+          <span className="db-stat-val" style={{ color:'var(--green)' }}>{fmt(totalCash)}</span>
         </div>
         <div className="db-stat-card purple">
           <div className="db-stat-icon" style={{ background:'rgba(124,58,237,0.12)' }}>🏦</div>
           <span className="db-stat-label">Bank</span>
-          <span className="db-stat-val" style={{ color:'var(--accent)' }}>{fmtShort(totalBank)}</span>
+          <span className="db-stat-val" style={{ color:'var(--accent)' }}>{fmt(totalBank)}</span>
         </div>
         <div className="db-stat-card red">
           <div className="db-stat-icon" style={{ background:'rgba(239,68,68,0.12)' }}>📊</div>

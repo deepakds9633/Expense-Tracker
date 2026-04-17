@@ -118,9 +118,10 @@ export default function AddTransaction() {
         {/* Preview card */}
         {amount && Number(amount) > 0 && (
           <div className="card" style={{
-            marginBottom: 16,
-            background: type === 'expense' ? 'rgba(244,63,94,0.06)' : 'rgba(34,197,94,0.06)',
-            borderColor: type === 'expense' ? 'rgba(244,63,94,0.2)' : 'rgba(34,197,94,0.2)',
+            marginBottom: 20,
+            background: type === 'expense' ? 'rgba(239, 68, 68, 0.08)' : 'rgba(16, 185, 129, 0.08)',
+            borderColor: type === 'expense' ? 'rgba(239, 68, 68, 0.3)' : 'rgba(16, 185, 129, 0.3)',
+            boxShadow: type === 'expense' ? '0 4px 20px rgba(239,68,68,0.15)' : '0 4px 20px rgba(16,185,129,0.15)'
           }}>
             <p className="label">Preview</p>
             <p style={{ fontSize: '1.4rem', fontWeight: 800, marginTop: 6 }}

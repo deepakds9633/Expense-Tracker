@@ -137,8 +137,8 @@ export default function Accounts() {
 
       {/* Add bank form */}
       {showAddBank && (
-        <form onSubmit={handleAddBank} className="card" style={{ marginBottom:16, borderColor:'rgba(139,92,246,0.25)' }}>
-          <p style={{ fontWeight:700, marginBottom:14, color:'var(--accent)' }}>New Bank Account</p>
+        <form onSubmit={handleAddBank} className="card" style={{ marginBottom:16, borderColor:'rgba(139,92,246,0.4)', boxShadow: '0 8px 32px rgba(139, 92, 246, 0.15)', background: 'rgba(139, 92, 246, 0.05)' }}>
+          <p style={{ fontWeight:800, marginBottom:16, color:'var(--text)', textShadow: '0 0 10px rgba(139,92,246,0.5)' }}>New Bank Account</p>
           <div className="input-group">
             <label>Bank Name</label>
             <input id="bank-name-input" className="input" type="text"
@@ -179,7 +179,7 @@ export default function Accounts() {
         <div style={{ display:'flex', flexDirection:'column', gap:10 }}>
           {accounts.map((acc, i) => (
             <div className="card" key={acc._id}
-              style={{ borderColor:`rgba(0,0,0,0.1)`, borderLeft:`3px solid ${acc.color || COLORS[i%COLORS.length]}` }}>
+              style={{ borderLeft:`4px solid ${acc.color || COLORS[i%COLORS.length]}`, paddingLeft: 18 }}>
               <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:8 }}>
                 <div style={{ display:'flex', alignItems:'center', gap:10 }}>
                   <span style={{
