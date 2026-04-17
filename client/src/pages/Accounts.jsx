@@ -77,6 +77,8 @@ export default function Accounts() {
 
   const fmt = (n) => '₹' + Number(n).toLocaleString('en-IN', { minimumFractionDigits: 2 })
 
+  const safeAccounts = Array.isArray(accounts) ? accounts : []
+
   if (loading) return <div className="page"><div className="loading-center"><div className="spinner"/></div></div>
 
   return (
@@ -170,14 +172,14 @@ export default function Accounts() {
         </form>
       )}
 
-      {accounts.length === 0 ? (
+      {safeAccounts.length === 0 ? (
         <div className="card empty">
           <span className="emoji">🏦</span>
           No bank accounts yet. Add one above!
         </div>
       ) : (
         <div style={{ display:'flex', flexDirection:'column', gap:10 }}>
-          {accounts.map((acc, i) => (
+          {safeAccounts.map((acc, i) => (
             <div className="card" key={acc._id}
               style={{ borderLeft:`4px solid ${acc.color || COLORS[i%COLORS.length]}`, paddingLeft: 18 }}>
               <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:8 }}>

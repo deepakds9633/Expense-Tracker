@@ -24,8 +24,9 @@ export default function AddTransaction() {
   }
 
   // Determine if source is a bank account id
+  const safeAccounts = Array.isArray(accounts) ? accounts : []
   const isBankSource = source !== 'notes' && source !== 'coins'
-  const selectedAccount = accounts.find(a => a._id === source)
+  const selectedAccount = safeAccounts.find(a => a._id === source)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -78,9 +79,9 @@ export default function AddTransaction() {
             onChange={e => setSource(e.target.value)}>
             <option value="notes">💵 Cash — Notes</option>
             <option value="coins">🪙 Cash — Coins</option>
-            {accounts.length > 0 && (
+            {safeAccounts.length > 0 && (
               <optgroup label="🏦 Bank Accounts">
-                {accounts.map(a => (
+                {safeAccounts.map(a => (
                   <option key={a._id} value={a._id}>
                     🏦 {a.name} — ₹{Number(a.balance).toLocaleString('en-IN')}
                   </option>
@@ -91,7 +92,7 @@ export default function AddTransaction() {
         </div>
 
         {/* No bank accounts hint */}
-        {isBankSource === false && accounts.length === 0 && source === 'bank' && (
+        {isBankSource === false && safeAccounts.length === 0 && source === 'bank' && (
           <p className="text-muted" style={{ fontSize: '0.85rem', marginBottom: 14 }}>
             No bank accounts yet.{' '}
             <button type="button" className="btn btn-ghost"
