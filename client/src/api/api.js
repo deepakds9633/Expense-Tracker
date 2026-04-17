@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const BASE = '/api'
+const BASE = import.meta.env.VITE_API_URL || '/api'
 
 // ── Auto-attach JWT token to every request ────────────
 axios.interceptors.request.use((config) => {
