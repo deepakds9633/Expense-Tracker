@@ -1,0 +1,561 @@
+/* ═══════════════════════════════════════════════
+   DASHBOARD — Ultra-Premium Fintech UI
+   v2.0 · Zero dependencies · Pure CSS
+═══════════════════════════════════════════════ */
+
+.db-page { padding-top: 20px; }
+
+/* ══════════════════════════════════════════════
+   HERO BALANCE CARD — "Credit Card" style
+══════════════════════════════════════════════ */
+.db-hero {
+  position: relative;
+  border-radius: 24px;
+  padding: 24px 22px 22px;
+  margin-bottom: 20px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #1e1248 0%, #2d1b69 40%, #1a237e 80%, #0d1b4b 100%);
+  box-shadow: 0 16px 48px rgba(109,40,217,0.35), 0 1px 0 rgba(255,255,255,0.08) inset;
+  border: 1px solid rgba(124,58,237,0.25);
+}
+
+/* Mesh shimmer lines */
+.db-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      105deg,
+      transparent,
+      transparent 60px,
+      rgba(255,255,255,0.015) 60px,
+      rgba(255,255,255,0.015) 61px
+    );
+  pointer-events: none;
+}
+
+/* Glowing orb */
+.db-hero::after {
+  content: '';
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 180px; height: 180px;
+  background: radial-gradient(circle, rgba(167,139,250,0.3) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.db-hero-inner { position: relative; z-index: 1; }
+
+.db-greeting {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: rgba(167,139,250,0.8);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.db-hero-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.db-balance-label {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.45);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.db-balance {
+  font-size: 2.4rem;
+  font-weight: 900;
+  letter-spacing: -2px;
+  color: #fff;
+  line-height: 1;
+  text-shadow: 0 2px 20px rgba(167,139,250,0.4);
+}
+
+.db-hero-badge {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 12px;
+  padding: 8px 10px;
+  backdrop-filter: blur(8px);
+  font-size: 1.4rem;
+}
+
+.db-hero-bottom {
+  display: flex;
+  gap: 24px;
+}
+
+.db-hero-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.db-hero-stat-label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.db-hero-stat-val {
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+}
+
+.db-hero-stat-val.income  { color: #4ade80; }
+.db-hero-stat-val.expense { color: #f87171; }
+
+/* ══════════════════════════════════════════════
+   QUICK STAT CARDS ROW
+══════════════════════════════════════════════ */
+.db-stat-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.db-stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.db-stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  border-radius: 2px 2px 0 0;
+}
+.db-stat-card.green::before { background: linear-gradient(90deg, var(--green), transparent); }
+.db-stat-card.red::before   { background: linear-gradient(90deg, var(--red), transparent); }
+.db-stat-card.purple::before { background: linear-gradient(90deg, var(--accent), transparent); }
+
+.db-stat-icon {
+  width: 34px; height: 34px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+}
+
+.db-stat-label {
+  font-size: 0.63rem;
+  font-weight: 700;
+  color: var(--text-sub);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+.db-stat-val {
+  font-size: 0.9rem;
+  font-weight: 900;
+  letter-spacing: -0.3px;
+}
+
+/* ══════════════════════════════════════════════
+   WALLET OVERVIEW — Donut + Legend
+══════════════════════════════════════════════ */
+.db-wallet-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* SVG Donut */
+.db-donut-wrap {
+  position: relative;
+  width: 110px;
+  height: 110px;
+  flex-shrink: 0;
+}
+.db-donut-svg { width: 110px; height: 110px; }
+.db-donut-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+}
+.db-donut-pct {
+  font-size: 1.15rem;
+  font-weight: 900;
+  color: var(--text);
+  letter-spacing: -0.5px;
+}
+.db-donut-lbl {
+  font-size: 0.58rem;
+  color: var(--text-sub);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.db-wallet-legend { flex: 1; display: flex; flex-direction: column; gap: 14px; }
+
+.db-wallet-item { display: flex; align-items: center; gap: 12px; }
+
+.db-wallet-icon {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.db-wallet-info { flex: 1; }
+
+.db-wallet-name {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.db-wallet-amt {
+  font-size: 0.98rem;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+}
+
+/* ══════════════════════════════════════════════
+   CASH BREAKDOWN CARDS
+══════════════════════════════════════════════ */
+.db-cash-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.db-cash-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.db-cash-card::after {
+  content: attr(data-emoji);
+  position: absolute;
+  right: -4px;
+  bottom: -4px;
+  font-size: 3rem;
+  opacity: 0.06;
+  pointer-events: none;
+  line-height: 1;
+}
+
+.db-cash-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.db-cash-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.db-cash-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.db-cash-val {
+  font-size: 1.15rem;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  margin-bottom: 10px;
+}
+
+/* ══════════════════════════════════════════════
+   PROGRESS BAR
+══════════════════════════════════════════════ */
+.db-progress-track {
+  width: 100%;
+  height: 5px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.db-progress-fill {
+  height: 100%;
+  border-radius: 10px;
+  transition: width 0.9s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* ══════════════════════════════════════════════
+   BANK ACCOUNTS
+══════════════════════════════════════════════ */
+.db-bank-list { display: flex; flex-direction: column; gap: 10px; }
+
+.db-bank-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  transition: transform 0.2s ease;
+}
+.db-bank-card:active { transform: scale(0.985); }
+
+.db-bank-left { display: flex; align-items: center; gap: 12px; min-width: 0; }
+
+.db-bank-avatar {
+  width: 42px; height: 42px;
+  border-radius: 13px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.db-bank-name {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.db-bank-sub {
+  font-size: 0.68rem;
+  color: var(--text-sub);
+  font-weight: 500;
+}
+
+.db-bank-right { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex-shrink: 0; }
+
+.db-bank-bal {
+  font-size: 1.05rem;
+  font-weight: 900;
+  letter-spacing: -0.4px;
+}
+
+/* ══════════════════════════════════════════════
+   MONTHLY BAR CHART (Pure CSS)
+══════════════════════════════════════════════ */
+.db-chart-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 14px 14px;
+}
+
+.db-chart-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.db-chart-pill {
+  display: flex;
+  gap: 12px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 4px 12px;
+}
+
+.db-chart-pill span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.db-leg-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.db-bar-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  height: 100px;
+}
+
+.db-bar-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  height: 100%;
+  justify-content: flex-end;
+}
+
+.db-bar-pair {
+  display: flex;
+  gap: 3px;
+  align-items: flex-end;
+  flex: 1;
+  width: 100%;
+  justify-content: center;
+}
+
+.db-bar-col {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  max-width: 14px;
+}
+
+.db-bar {
+  width: 100%;
+  border-radius: 5px 5px 3px 3px;
+  transition: height 0.9s cubic-bezier(0.4,0,0.2,1);
+  min-height: 3px;
+  cursor: pointer;
+}
+.db-bar:hover { opacity: 0.75; }
+
+.db-bar-income  { background: linear-gradient(180deg, #34d399, #10b981); }
+.db-bar-expense { background: linear-gradient(180deg, #f87171, #ef4444); }
+
+.db-bar-label {
+  font-size: 0.6rem;
+  color: var(--text-sub);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+/* ══════════════════════════════════════════════
+   TRANSACTION LIST
+══════════════════════════════════════════════ */
+.db-tx-list { display: flex; flex-direction: column; gap: 8px; }
+
+.db-tx {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 14px;
+  transition: transform 0.15s ease;
+}
+.db-tx:active { transform: scale(0.985); }
+
+.db-tx-icon {
+  width: 42px; height: 42px;
+  border-radius: 13px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.05rem;
+  flex-shrink: 0;
+}
+
+.db-tx-info { flex: 1; min-width: 0; }
+
+.db-tx-note {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 3px;
+}
+
+.db-tx-meta {
+  font-size: 0.68rem;
+  color: var(--text-sub);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.db-tx-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--text-sub); }
+
+.db-tx-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.db-tx-amt {
+  font-size: 0.92rem;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  white-space: nowrap;
+}
+
+.db-tx-badge {
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+
+.db-tx-badge.badge-in  { background: rgba(16,185,129,0.12);  color: var(--green); }
+.db-tx-badge.badge-ex  { background: rgba(239,68,68,0.12);   color: var(--red); }
+
+/* ══════════════════════════════════════════════
+   ADD BUTTON
+══════════════════════════════════════════════ */
+.db-add-btn {
+  margin-top: 24px;
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+  padding: 16px;
+  border-radius: 16px;
+  letter-spacing: 0.03em;
+}
