@@ -114,13 +114,17 @@ export default function Dashboard() {
   const fmt      = n => '₹' + Number(n).toLocaleString('en-IN', { minimumFractionDigits:2 })
   const fmtShort = n => n>=100000 ? '₹'+(n/100000).toFixed(1)+'L' : n>=1000 ? '₹'+(n/1000).toFixed(1)+'K' : '₹'+Number(n).toFixed(0)
 
-  const totalCash    = (cash.coins||0) + (cash.notes||0)
-  const totalBank    = accounts.reduce((s,a) => s+(a.balance||0), 0)
+  const safeAccounts = Array.isArray(accounts) ? accounts : []
+  const safeTxAll    = Array.isArray(txAll) ? txAll : []
+  const safeRecent   = Array.isArray(recent) ? recent : []
+
+  const totalCash    = (cash?.coins||0) + (cash?.notes||0)
+  const totalBank    = safeAccounts.reduce((s,a) => s+(a.balance||0), 0)
   const grandTotal   = totalCash + totalBank
-  const totalIncome  = txAll.filter(t=>t.type==='income').reduce((s,t)=>s+t.amount,0)
-  const totalExpense = txAll.filter(t=>t.type==='expense').reduce((s,t)=>s+t.amount,0)
+  const totalIncome  = safeTxAll.filter(t=>t.type==='income').reduce((s,t)=>s+t.amount,0)
+  const totalExpense = safeTxAll.filter(t=>t.type==='expense').reduce((s,t)=>s+t.amount,0)
   const savRate      = totalIncome>0 ? Math.round(((totalIncome-totalExpense)/totalIncome)*100) : 0
-  const monthly      = buildMonthly(txAll)
+  const monthly      = buildMonthly(safeTxAll)
 
   if (loading) return <div className="page"><div className="loading-center"><div className="spinner"/></div></div>
 
@@ -193,7 +197,7 @@ export default function Dashboard() {
         <div className="db-stat-card red">
           <div className="db-stat-icon" style={{ background:'rgba(239,68,68,0.12)' }}>📊</div>
           <span className="db-stat-label">Accounts</span>
-          <span className="db-stat-val" style={{ color:'var(--blue)' }}>{accounts.length}</span>
+          <span className="db-stat-val" style={{ color:'var(--blue)' }}>{safeAccounts.length}</span>
         </div>
       </div>
 
@@ -264,7 +268,7 @@ export default function Dashboard() {
           onClick={() => navigate('/accounts')}>Manage →</button>
       </div>
 
-      {accounts.length === 0 ? (
+      {safeAccounts.length === 0 ? (
         <div className="card empty">
           <span className="emoji">🏦</span>No bank accounts yet
           <br/>
@@ -273,7 +277,7 @@ export default function Dashboard() {
         </div>
       ) : (
         <div className="db-bank-list">
-          {accounts.map((acc, i) => {
+          {safeAccounts.map((acc, i) => {
             const c   = acc.color || BANK_COLORS[i % BANK_COLORS.length]
             const pct = totalBank>0 ? Math.min((acc.balance/totalBank)*100,100) : 0
             return (
@@ -323,13 +327,13 @@ export default function Dashboard() {
           onClick={() => navigate('/history')}>See All →</button>
       </div>
 
-      {recent.length === 0 ? (
+      {safeRecent.length === 0 ? (
         <div className="card empty">
           <span className="emoji">📭</span>No transactions yet
         </div>
       ) : (
         <div className="db-tx-list">
-          {recent.map(tx => (
+          {safeRecent.map(tx => (
             <div className="db-tx" key={tx._id}>
               <div className="db-tx-icon" style={{
                 background: tx.type==='income' ? 'rgba(16,185,129,0.12)' : 'rgba(239,68,68,0.12)'

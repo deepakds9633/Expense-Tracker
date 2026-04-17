@@ -7,11 +7,12 @@ const fmt  = n => '₹' + Number(n).toLocaleString('en-IN', { minimumFractionDig
 const fmtD = d => new Date(d).toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' })
 
 export function generatePDF({ transactions, filterLabel, userName }) {
-  const income  = transactions.filter(t => t.type === 'income').reduce((s,t) => s+t.amount, 0)
-  const expense = transactions.filter(t => t.type === 'expense').reduce((s,t) => s+t.amount, 0)
+  const safeTransactions = Array.isArray(transactions) ? transactions : []
+  const income  = safeTransactions.filter(t => t.type === 'income').reduce((s,t) => s+t.amount, 0)
+  const expense = safeTransactions.filter(t => t.type === 'expense').reduce((s,t) => s+t.amount, 0)
   const net     = income - expense
 
-  const rows = transactions.map((t, i) => `
+  const rows = safeTransactions.map((t, i) => `
     <tr class="${i % 2 === 0 ? 'row-even' : 'row-odd'}">
       <td>${fmtD(t.date)}</td>
       <td class="note-col">${t.note || '—'}</td>
@@ -230,24 +231,24 @@ export function generatePDF({ transactions, filterLabel, userName }) {
     <div class="sum-card">
       <p class="sum-label in">📈 Total Income</p>
       <p class="sum-val in">${fmt(income)}</p>
-      <p class="sum-count">${transactions.filter(t=>t.type==='income').length} transactions</p>
+      <p class="sum-count">${safeTransactions.filter(t=>t.type==='income').length} transactions</p>
     </div>
     <div class="sum-card">
       <p class="sum-label ex">📉 Total Expense</p>
       <p class="sum-val ex">${fmt(expense)}</p>
-      <p class="sum-count">${transactions.filter(t=>t.type==='expense').length} transactions</p>
+      <p class="sum-count">${safeTransactions.filter(t=>t.type==='expense').length} transactions</p>
     </div>
     <div class="sum-card">
       <p class="sum-label net">💎 Net Balance</p>
       <p class="sum-val net">${net >= 0 ? '+' : ''}${fmt(net)}</p>
-      <p class="sum-count">${transactions.length} total records</p>
+      <p class="sum-count">${safeTransactions.length} total records</p>
     </div>
   </div>
 
   <div class="table-wrap">
     <p class="table-title">Transaction Details</p>
 
-    ${transactions.length === 0
+    ${safeTransactions.length === 0
       ? '<div class="empty-msg">No transactions found for this filter.</div>'
       : `<table>
           <thead>
@@ -284,6 +285,7 @@ export function generatePDF({ transactions, filterLabel, userName }) {
  * Build filter options based on transactions + accounts
  */
 export function buildFilterOptions(transactions, accounts) {
+  const safeAccounts = Array.isArray(accounts) ? accounts : []
   const options = [
     { value: 'all',     label: '📊 All Transactions' },
     { value: 'income',  label: '📈 Income Only' },
@@ -293,7 +295,7 @@ export function buildFilterOptions(transactions, accounts) {
     { value: 'notes',   label: '💵 Notes Only' },
   ]
   // Add each bank account
-  for (const acc of accounts) {
+  for (const acc of safeAccounts) {
     options.push({ value: `bank_${acc._id}`, label: `🏦 ${acc.name}`, accountId: acc._id, accountName: acc.name })
   }
   return options
@@ -303,15 +305,16 @@ export function buildFilterOptions(transactions, accounts) {
  * Apply a filter to the transactions array
  */
 export function applyFilter(transactions, filterValue) {
-  if (filterValue === 'all')     return transactions
-  if (filterValue === 'income')  return transactions.filter(t => t.type === 'income')
-  if (filterValue === 'expense') return transactions.filter(t => t.type === 'expense')
-  if (filterValue === 'cash')    return transactions.filter(t => t.source === 'coins' || t.source === 'notes')
-  if (filterValue === 'coins')   return transactions.filter(t => t.source === 'coins')
-  if (filterValue === 'notes')   return transactions.filter(t => t.source === 'notes')
+  const safeTransactions = Array.isArray(transactions) ? transactions : []
+  if (filterValue === 'all')     return safeTransactions
+  if (filterValue === 'income')  return safeTransactions.filter(t => t.type === 'income')
+  if (filterValue === 'expense') return safeTransactions.filter(t => t.type === 'expense')
+  if (filterValue === 'cash')    return safeTransactions.filter(t => t.source === 'coins' || t.source === 'notes')
+  if (filterValue === 'coins')   return safeTransactions.filter(t => t.source === 'coins')
+  if (filterValue === 'notes')   return safeTransactions.filter(t => t.source === 'notes')
   if (filterValue.startsWith('bank_')) {
     const id = filterValue.replace('bank_', '')
-    return transactions.filter(t => t.source === 'bank' && t.accountId === id)
+    return safeTransactions.filter(t => t.source === 'bank' && t.accountId === id)
   }
-  return transactions
+  return safeTransactions
 }

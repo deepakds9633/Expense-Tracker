@@ -43,8 +43,11 @@ export default function History() {
 
   const fmt = n => '₹' + Number(n).toLocaleString('en-IN', { minimumFractionDigits: 2 })
 
+  const safeTransactions = Array.isArray(transactions) ? transactions : []
+  const safeAccounts     = Array.isArray(accounts) ? accounts : []
+
   // Type filter (all / income / expense)
-  const filtered = transactions.filter(t =>
+  const filtered = safeTransactions.filter(t =>
     typeFilter === 'all' ? true : t.type === typeFilter
   )
 
@@ -53,11 +56,11 @@ export default function History() {
   const totalExpense = filtered.filter(t => t.type==='expense').reduce((s,t) => s+t.amount, 0)
 
   // PDF filter options (all / income / expense / cash / coins / notes / per-bank)
-  const pdfOptions = buildFilterOptions(transactions, accounts)
+  const pdfOptions = buildFilterOptions(safeTransactions, safeAccounts)
 
   const handleDownloadPDF = () => {
     const chosen  = pdfOptions.find(o => o.value === pdfFilter) || pdfOptions[0]
-    const txSlice = applyFilter(transactions, pdfFilter)
+    const txSlice = applyFilter(safeTransactions, pdfFilter)
     generatePDF({ transactions: txSlice, filterLabel: chosen.label, userName: user?.name })
     showToast('📄 Opening print dialog…')
   }
