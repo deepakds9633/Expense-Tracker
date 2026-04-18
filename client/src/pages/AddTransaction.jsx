@@ -77,8 +77,8 @@ export default function AddTransaction() {
           <label>Source</label>
           <select id="source-select" className="input" value={source}
             onChange={e => setSource(e.target.value)}>
-            <option value="notes">💵 Cash — Notes</option>
-            <option value="coins">🪙 Cash — Coins</option>
+            <option value="notes">💵 Notes</option>
+            <option value="coins">🪙 Coins</option>
             {safeAccounts.length > 0 && (
               <optgroup label="🏦 Bank Accounts">
                 {safeAccounts.map(a => (
