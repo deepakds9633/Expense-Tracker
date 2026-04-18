@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head><title>Offline — My Money</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, 'Outfit', sans-serif;
+    background: #050508;
+    color: #f1f5f9;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 24px;
+  }
+  .card {
+    background: rgba(18,18,24,0.7);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 24px;
+    padding: 40px 32px;
+    backdrop-filter: blur(20px);
+    max-width: 340px;
+  }
+  .icon { font-size: 3.5rem; margin-bottom: 20px; }
+  h1 { font-size: 1.4rem; font-weight: 800; margin-bottom: 10px; color: #f1f5f9; }
+  p { font-size: 0.9rem; color: #64748b; line-height: 1.6; margin-bottom: 24px; }
+  button {
+    background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+    color: #fff; border: none; border-radius: 14px;
+    padding: 14px 28px; font-size: 0.95rem; font-weight: 700;
+    cursor: pointer; width: 100%;
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="icon">📵</div>
+    <h1>You're Offline</h1>
+    <p>Check your internet connection and try again. Your data is safe and will sync when you're back online.</p>
+    <button onclick="window.location.reload()">🔄 Try Again</button>
+  </div>
+</body>
+</html>

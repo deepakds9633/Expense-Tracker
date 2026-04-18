@@ -105,7 +105,10 @@ export default function Dashboard() {
     setLoading(true); setServerErr(false)
     try {
       const [c,a,r,t] = await Promise.all([getCash(), getAccounts(), getRecentTransactions(), getTransactions()])
-      setCash(c.data); setAccounts(a.data); setRecent(r.data); setTxAll(t.data)
+      if (c?.data && typeof c.data === 'object') setCash(c.data)
+      setAccounts(Array.isArray(a?.data) ? a.data : [])
+      setRecent(Array.isArray(r?.data) ? r.data : [])
+      setTxAll(Array.isArray(t?.data) ? t.data : [])
     } catch (e) { setServerErr(true) }
     finally { setLoading(false) }
   }

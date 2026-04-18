@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head><title>Generate PWA Icons</title></head>
+<body>
+<p>Open this file in browser, then right-click each canvas to save as PNG.</p>
+
+<h3>icon-192.png</h3>
+<canvas id="c192" width="192" height="192"></canvas>
+
+<h3>icon-512.png</h3>
+<canvas id="c512" width="512" height="512"></canvas>
+
+<script>
+function drawIcon(canvasId, size) {
+  const canvas = document.getElementById(canvasId);
+  const ctx = canvas.getContext('2d');
+  const s = size;
+
+  // Background rounded rect
+  const r = s * 0.22;
+  ctx.beginPath();
+  ctx.moveTo(r, 0);
+  ctx.lineTo(s - r, 0);
+  ctx.quadraticCurveTo(s, 0, s, r);
+  ctx.lineTo(s, s - r);
+  ctx.quadraticCurveTo(s, s, s - r, s);
+  ctx.lineTo(r, s);
+  ctx.quadraticCurveTo(0, s, 0, s - r);
+  ctx.lineTo(0, r);
+  ctx.quadraticCurveTo(0, 0, r, 0);
+  ctx.closePath();
+
+  const bg = ctx.createLinearGradient(0, 0, s, s);
+  bg.addColorStop(0, '#8b5cf6');
+  bg.addColorStop(0.5, '#7c3aed');
+  bg.addColorStop(1, '#6d28d9');
+  ctx.fillStyle = bg;
+  ctx.fill();
+
+  // Inner glow
+  const glow = ctx.createRadialGradient(s*0.4, s*0.35, 0, s*0.5, s*0.5, s*0.6);
+  glow.addColorStop(0, 'rgba(255,255,255,0.18)');
+  glow.addColorStop(1, 'rgba(255,255,255,0)');
+  ctx.fillStyle = glow;
+  ctx.fill();
+
+  // Coin emoji
+  ctx.font = `${s * 0.45}px serif`;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('💰', s / 2, s / 2);
+}
+
+drawIcon('c192', 192);
+drawIcon('c512', 512);
+
+// Auto-download
+function download(canvasId, filename) {
+  const a = document.createElement('a');
+  a.download = filename;
+  a.href = document.getElementById(canvasId).toDataURL('image/png');
+  a.click();
+}
+
+// Auto-download both icons
+window.onload = () => {
+  setTimeout(() => download('c192', 'icon-192.png'), 500);
+  setTimeout(() => download('c512', 'icon-512.png'), 1000);
+};
+</script>
+</body>
+</html>
