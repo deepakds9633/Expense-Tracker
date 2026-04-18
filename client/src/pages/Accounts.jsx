@@ -30,8 +30,16 @@ export default function Accounts() {
   }
 
   const fetchAll = async () => {
-    const [c, a] = await Promise.all([getCash(), getAccounts()])
-    setCash(c.data); setAccounts(a.data); setLoading(false)
+    try {
+      const [c, a] = await Promise.all([getCash(), getAccounts()])
+      if (c?.data && typeof c.data === 'object') setCash(c.data)
+      setAccounts(Array.isArray(a?.data) ? a.data : [])
+    } catch (e) {
+      console.error('Failed to load accounts:', e)
+      showToast('Failed to load data. Please refresh.', 'error')
+    } finally {
+      setLoading(false)
+    }
   }
   useEffect(() => { fetchAll() }, [])
 

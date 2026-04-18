@@ -20,9 +20,9 @@ export default function History() {
   const fetchAll = async () => {
     try {
       const [txRes, accRes] = await Promise.all([getTransactions(), getAccounts()])
-      setTransactions(txRes.data)
-      setAccounts(accRes.data)
-    } catch(e) { console.error(e) }
+      setTransactions(Array.isArray(txRes?.data) ? txRes.data : [])
+      setAccounts(Array.isArray(accRes?.data) ? accRes.data : [])
+    } catch(e) { console.error('Failed to load history:', e) }
     finally { setLoading(false) }
   }
 
@@ -135,7 +135,7 @@ export default function History() {
             <div className="hist-pdf-info">
               <span className="hist-pdf-info-icon">ℹ️</span>
               <span>
-                {applyFilter(transactions, pdfFilter).length} records will be exported
+                {applyFilter(safeTransactions, pdfFilter).length} records will be exported
               </span>
             </div>
             <button className="btn btn-primary btn-full hist-pdf-btn" onClick={handleDownloadPDF}>
